@@ -76,4 +76,6 @@ export default {
 "รบกวนช่วยวางไว้ที่ล็อบบี้ได้เลยค่ะ": "Please leave it at the lobby",
 "รับทราบครับ ถึงแล้วจะแจ้งอีกครั้ง": "Got it, I'll message when I arrive",
 "ถึงร้านแล้วแจ้งได้เลย": "Let me know when you arrive",
+"โหมดการใช้งาน": "App mode",
+"เหตุผลการยกเลิก": "Cancellation reason",
 }

@@ -43,11 +43,11 @@ export function segmented(options, selected, action, attr = "data-value") {
   return `<div class="chip-list" role="group">${options.map(([value, label]) => `<button class="chip ${value === selected ? "active" : ""}" aria-pressed="${value === selected}" data-action="${action}" ${attr}="${escapeHTML(value)}">${label}</button>`).join("")}</div>`;
 }
 export function faq(items) {
-  return items.map(([q, a]) => `<details class="card faq-item"><summary class="p2-help-row">${q}<span class="faq-chevron" aria-hidden="true">›</span></summary><div class="faq-answer muted small">${a}</div></details>`).join("");
+  return `<div class="list-group">${items.map(([q, a]) => `<details class="faq-item"><summary class="p2-help-row">${q}<span class="faq-chevron" aria-hidden="true">›</span></summary><div class="faq-answer muted small">${a}</div></details>`).join("")}</div>`;
 }
 export function accountFooter() {
   const row = (label, action) => `<button class="p2-help-row" data-action="${action}">${label}<span>›</span></button>`;
-  return `${card(`${row("ข้อกำหนดการใช้บริการ", "show-terms")}${row("นโยบายความเป็นส่วนตัว", "show-privacy")}<div class="muted micro" style="margin-top:8px">RMA Delivery เวอร์ชัน 1.0.0</div>`)}${button("ออกจากระบบ", { action: "logout", variant: "ghost" })}`;
+  return `<div class="list-group">${row("ข้อกำหนดการใช้บริการ", "show-terms")}${row("นโยบายความเป็นส่วนตัว", "show-privacy")}</div><div class="muted micro list-footnote">RMA Delivery เวอร์ชัน 1.0.0</div>${button("ออกจากระบบ", { action: "logout", variant: "ghost" })}`;
 }
 export function skeletonBlock(count = 3) {
   return `<div aria-label="กำลังโหลด">${Array.from({ length: count }, (_, i) => `<div class="card"><div class="skeleton skeleton-line" style="width:${56 + (i * 11) % 35}%"></div><div class="skeleton skeleton-line" style="width:${90 - i * 9}%"></div><div class="skeleton skeleton-card"></div></div>`).join("")}</div>`;
@@ -61,3 +61,17 @@ export function keyboardDemo() {
 export function modalShell(content, title = "รายละเอียด") {
   return `<div class="modal-backdrop" data-action="close-modal"><div class="modal" role="dialog" aria-modal="true" aria-label="${title}" data-modal-inner>${content}</div></div>`;
 }
+// Flat list (D-025): rows share the page background and are split by dividers · attrs = data-route/data-action string
+export const listGroup = (rows) => `<div class="list-group">${rows}</div>`;
+export function listRow({ icon = "", label, sub = "", attrs = "", trailing = "" }) {
+  const tag = attrs ? "button" : "div";
+  const end = trailing || (attrs ? `<span class="list-chevron">${homeIcon("chevron", 18)}</span>` : "");
+  return `<${tag} class="list-row" ${attrs}>${icon ? `<span class="list-icon">${homeIcon(icon, 20)}</span>` : ""}<span class="list-copy"><span class="list-label">${label}</span>${sub ? `<small>${sub}</small>` : ""}</span>${end}</${tag}>`;
+}
+// Shared account blocks for C-19 / M-17 / R-15 (actions unchanged: toggle-sound, set-lang, set-theme, A-06)
+export const profileRow = (initials, name, sub, extra = "") => `<div class="list-profile"><span class="avatar large">${initials}</span><div><strong>${name}</strong><div class="muted small">${sub}</div>${extra}</div></div>`;
+export function settingsGroup(ctx, soundLabel = "") {
+  const sound = soundLabel ? listRow({ icon: "notifications", label: soundLabel, trailing: `<button class="switch ${ctx.soundOn === false ? "" : "on"}" data-action="toggle-sound" aria-label="${soundLabel}" aria-pressed="${ctx.soundOn !== false}"></button>` }) : "";
+  return listGroup(`${sound}${listRow({ icon: "message", label: "ภาษา", trailing: segmented([["th", "ไทย"], ["en", "English"]], ctx.appLang || "th", "set-lang") })}${listRow({ icon: "dark", label: "ธีม", trailing: segmented([["light", "สว่าง"], ["dark", "มืด"], ["system", "ตามระบบ"]], ctx.themePreference || "light", "set-theme") })}`);
+}
+export const roleSwitchRow = (sub) => listGroup(listRow({ icon: "sync", label: "เปลี่ยนโหมดการใช้งาน", sub, attrs: 'data-route="A-06"', trailing: `<span class="pill brand">สลับ role</span>` }));

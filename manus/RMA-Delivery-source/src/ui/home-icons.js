@@ -44,7 +44,8 @@ const ICONS = Object.freeze({
   settings: "settings",
   qr: "qr_code",
   bike: "two_wheeler",
-  drag: "drag_indicator"
+  drag: "drag_indicator",
+  sync: "sync"
 });
 
 export function homeIcon(name, size = 20) {

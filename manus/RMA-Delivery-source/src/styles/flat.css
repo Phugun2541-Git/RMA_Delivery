@@ -87,3 +87,46 @@
 .home-more-copy strong { font-size: var(--font-sm); }
 .home-more-copy small { overflow: hidden; color: var(--muted); font-size: var(--font-xs); text-overflow: ellipsis; white-space: nowrap; }
 .home-more-tag { flex: 0 0 auto; padding: 3px 9px; border-radius: var(--radius-pill); background: var(--warning-soft); color: var(--warning); font-size: 11px; font-weight: 600; }
+
+/* ---------- Shared flat list (listGroup / listRow / faq / rowCard / accountFooter) ---------- */
+.list-group { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.list-row { width: 100%; min-height: 56px; display: flex; align-items: center; gap: 12px; padding: 12px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--text); font: inherit; font-size: var(--font-sm); text-align: left; }
+.list-row:last-child { border-bottom: 0; }
+button.list-row { cursor: pointer; }
+.list-row:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.list-icon { flex: 0 0 24px; display: grid; place-items: center; color: var(--muted); }
+.list-copy { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.list-copy small { color: var(--muted); font-size: var(--font-xs); }
+.list-chevron { flex: 0 0 auto; color: var(--muted); }
+.list-row .chip-list { flex: 0 1 auto; flex-wrap: nowrap; margin: 0; }
+.list-footnote { margin: 10px 0 14px; }
+.list-profile { display: flex; align-items: center; gap: 14px; padding: 6px 0 16px; }
+.list-profile > div { min-width: 0; }
+.list-group .faq-item { padding: 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; box-shadow: none; }
+.list-group .faq-item:last-child { border-bottom: 0; }
+.list-group .faq-item > summary { padding-left: 0; padding-right: 0; }
+.list-group .faq-answer { padding-left: 0; padding-right: 0; }
+.list-group .p2-help-row { padding-left: 0; padding-right: 0; min-height: 52px; align-items: center; font-size: var(--font-sm); font-weight: 400; }
+.list-group .p2-help-row > span, .list-group .faq-chevron { color: var(--muted); }
+.list-group .p2-help-row:last-child { border-bottom: 0; }
+.p2-row-card { margin: 0; padding: 14px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; box-shadow: none; }
+.p2-row-card:last-child { border-bottom: 0; }
+.p2-row-card > span:last-child { color: var(--muted); font-size: 20px; }
+
+/* ---------- C-08 cart / C-14 reasons: flat ---------- */
+.cart-list { border-top: 1px solid var(--line); }
+.cart-list .p2-cart-row { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.price-block { margin-top: 12px; padding-top: 8px; border-top: 8px solid var(--surface-2); margin-left: -18px; margin-right: -18px; padding-left: 18px; padding-right: 18px; }
+.list-group[role="radiogroup"] { margin-bottom: 14px; }
+
+/* ---------- Metrics inside a card: no inner boxes, split by a vertical rule (M-03 summary) ---------- */
+.card .metric-grid { gap: 0; }
+.card .metric { padding: 4px 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.card .metric + .metric { padding-left: 14px; border-left: 1px solid var(--line); }
+
+/* ---------- M-14 reviews ---------- */
+.review-row { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.review-row:last-child { border-bottom: 0; }
+.review-row p { margin: 4px 0; }
+.review-stars { display: inline-flex; gap: 1px; color: var(--warning); }
+.review-stars .home-symbol { font-variation-settings: "FILL" 1; }
