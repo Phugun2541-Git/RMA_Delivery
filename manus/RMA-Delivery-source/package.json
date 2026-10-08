@@ -1,0 +1,14 @@
+{
+  "name": "rma-delivery-mockup",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive Thai mobile mockup for RMA Delivery review",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

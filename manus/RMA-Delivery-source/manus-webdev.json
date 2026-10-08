@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "projectId": "wdp_9e9b37ef4bb3413c66ef5de8",
+  "description": "ต้นแบบมือถือภาษาไทย RMA Delivery สำหรับ review ลูกค้า ร้านค้า และไรเดอร์ ครบ 80 หน้าจอ พร้อม hash deep links, flow จำลองที่กดได้, แผง review และ theme สว่าง/มืด เป็น static frontend ไม่มี backend"
+}

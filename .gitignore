@@ -1,0 +1,9 @@
+node_modules/
+.work/
+.manus/
+*.log
+.DS_Store
+Thumbs.db
+.claude/settings.local.json
+# nested git repos created by Manus webdev (cannot be added as plain files)
+outputs/rma-delivery-mockup/site/
