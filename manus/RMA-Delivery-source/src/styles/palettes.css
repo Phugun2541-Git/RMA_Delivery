@@ -1,0 +1,46 @@
+/* Customer palettes (review panel picker). Aurora = tokens.css default.
+   Applies to every customer/auth/shared screen; merchant (M) and rider (R) keep their role colours (D-019).
+   saffron / chili = appetite palettes, see ai-collab/DECISIONS.md D-027. All brand values ≥ 4.5:1 on white. */
+
+/* ---------- brand tokens for the whole customer side ---------- */
+:root[data-home-palette="lagoon"] .phone:not([data-role="M"]):not([data-role="R"]) { --brand: #0B7478; --brand-strong: #095C5F; --brand-soft: #E1F3F1; --focus: #0B7478; }
+:root[data-home-palette="rosewood"] .phone:not([data-role="M"]):not([data-role="R"]) { --brand: #B34C67; --brand-strong: #8E3A51; --brand-soft: #F8E7EC; --focus: #B34C67; }
+:root[data-home-palette="saffron"] .phone:not([data-role="M"]):not([data-role="R"]) { --brand: #C2410C; --brand-strong: #9A3412; --brand-soft: #FFEDD5; --focus: #9A3412; }
+:root[data-home-palette="chili"] .phone:not([data-role="M"]):not([data-role="R"]) { --brand: #C0391B; --brand-strong: #962A12; --brand-soft: #FDE8E1; --focus: #962A12; }
+
+:root[data-theme="dark"][data-home-palette="lagoon"] .phone:not([data-role="M"]):not([data-role="R"]) { --brand: #7ED2CC; --brand-strong: #A9E6E1; --brand-soft: #1F3C3D; --on-brand: #0E2627; --focus: #7ED2CC; }
+:root[data-theme="dark"][data-home-palette="rosewood"] .phone:not([data-role="M"]):not([data-role="R"]) { --brand: #EE9AAA; --brand-strong: #F7C2CC; --brand-soft: #442933; --on-brand: #2E1820; --focus: #EE9AAA; }
+:root[data-theme="dark"][data-home-palette="saffron"] .phone:not([data-role="M"]):not([data-role="R"]) { --brand: #FDBA74; --brand-strong: #FED7AA; --brand-soft: #43301C; --on-brand: #2B1A0A; --focus: #FDBA74; }
+:root[data-theme="dark"][data-home-palette="chili"] .phone:not([data-role="M"]):not([data-role="R"]) { --brand: #FF9B85; --brand-strong: #FFC2B5; --brand-soft: #46241D; --on-brand: #2E120C; --focus: #FF9B85; }
+
+/* ---------- C-01 home variables (same names as home.css palettes) ---------- */
+:root[data-home-palette="saffron"] .phone:has(.customer-home) {
+  --home-brand: #C2410C;
+  --home-brand-soft: #FFEDD5;
+  --home-wash-lilac: #FFE4C7;
+  --home-wash-blue: #FFF3D6;
+  --home-wash-warm: #FDE2D3;
+  --home-food: #C2410C; --home-food-icon-start: #EA7A2E;
+  --home-ride: #9A3412; --home-ride-icon-start: #C2562A;
+  --home-parcel: #A16207; --home-parcel-icon-start: #CA8A04;
+  --home-care: #3F7D3A; --home-care-icon-start: #5C9A4F;
+}
+:root[data-home-palette="chili"] .phone:has(.customer-home) {
+  --home-brand: #C0391B;
+  --home-brand-soft: #FDE8E1;
+  --home-wash-lilac: #FBDDD3;
+  --home-wash-blue: #FFF0D9;
+  --home-wash-warm: #F6E7C8;
+  --home-food: #C0391B; --home-food-icon-start: #E2603E;
+  --home-ride: #C2410C; --home-ride-icon-start: #E8742F;
+  --home-parcel: #A16207; --home-parcel-icon-start: #CA8A04;
+  --home-care: #3F7D3A; --home-care-icon-start: #5C9A4F;
+}
+:root[data-theme="dark"][data-home-palette="saffron"] .phone:has(.customer-home) {
+  --home-brand: #FDBA74; --home-brand-soft: #43301C;
+  --home-wash-lilac: #47301C; --home-wash-blue: #3F3420; --home-wash-warm: #452A20;
+}
+:root[data-theme="dark"][data-home-palette="chili"] .phone:has(.customer-home) {
+  --home-brand: #FF9B85; --home-brand-soft: #46241D;
+  --home-wash-lilac: #4A261E; --home-wash-blue: #40331F; --home-wash-warm: #3F3320;
+}

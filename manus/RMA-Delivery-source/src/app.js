@@ -12,7 +12,10 @@ const safeGet=(key,fallback)=>{try{return localStorage.getItem(key)||fallback;}c
 const HOME_PALETTES = Object.freeze([
   { id: 'aurora', name: 'Aurora', subtitle: 'ม่วง · ฟ้า · มิ้นต์', swatches: ['#5945C7','#3274D6','#9B5A07','#146E54'] },
   { id: 'lagoon', name: 'Lagoon', subtitle: 'ทีล · คราม · ฮันนี่', swatches: ['#0B7478','#265F8B','#965707','#17664A'] },
-  { id: 'rosewood', name: 'Rosewood', subtitle: 'เบอร์รี · สเลต · เซจ', swatches: ['#B34C67','#365B9D','#995903','#27684C'] }
+  { id: 'rosewood', name: 'Rosewood', subtitle: 'เบอร์รี · สเลต · เซจ', swatches: ['#B34C67','#365B9D','#995903','#27684C'] },
+  // Appetite palettes (warm food hues) — research notes in ai-collab/DECISIONS.md D-027
+  { id: 'saffron', name: 'Saffron', subtitle: 'ส้มหญ้าฝรั่น · พริก · ใบมะกรูด', swatches: ['#C2410C','#B42318','#A16207','#3F7D3A'] },
+  { id: 'chili', name: 'Chili', subtitle: 'แดงพริกแกง · ส้ม · มะนาว', swatches: ['#C0391B','#C2410C','#A16207','#3F7D3A'] }
 ]);
 const homePalette=()=>{const v=safeGet('rma-home-palette','aurora');return HOME_PALETTES.some(p=>p.id===v)?v:'aurora';};
 const storedTheme=safeGet('rma-theme','light');
@@ -60,9 +63,10 @@ function panelMarkup() {
   const selected=currentState(state.currentId);
   const flow=state.activeFlow===null?null:FLOW_SHORTCUTS[state.activeFlow];
   const step=flow?`${Math.min(state.flowIndex+1,flow.route.length)} / ${flow.route.length}`:"";
-  const paletteSection=state.currentId==='C-01'?`<div class="review-section"><h3>เลือกโทนสี · C-01</h3><div class="palette-options">${HOME_PALETTES.map(p=>`<button class="palette-option ${homePalette()===p.id?'active':''}" data-home-palette="${p.id}" aria-pressed="${homePalette()===p.id}"><span class="palette-swatches" aria-hidden="true">${p.swatches.map(c=>`<i style="--palette-swatch:${c}"></i>`).join('')}</span><span class="palette-copy"><strong>${p.name}</strong><small>${p.subtitle}</small></span><span class="palette-check" aria-hidden="true">${homePalette()===p.id?'✓':''}</span></button>`).join('')}</div><p class="muted micro">เปลี่ยนสีเฉพาะหน้าหลัก C-01</p></div>`:'';
+  const paletteSection=`<div class="review-section"><h3>โทนสีฝั่งลูกค้า</h3><div class="palette-options">${HOME_PALETTES.map(p=>`<button class="palette-option ${homePalette()===p.id?'active':''}" data-home-palette="${p.id}" aria-pressed="${homePalette()===p.id}"><span class="palette-swatches" aria-hidden="true">${p.swatches.map(c=>`<i style="--palette-swatch:${c}"></i>`).join('')}</span><span class="palette-copy"><strong>${p.name}</strong><small>${p.subtitle}</small></span><span class="palette-check" aria-hidden="true">${homePalette()===p.id?'✓':''}</span></button>`).join('')}</div><p class="muted micro">มีผลทุกหน้าฝั่งลูกค้า · ร้าน/ไรเดอร์คงสีของ role (D-019)</p></div>`;
   return `<div class="review-head"><h2>แผง review</h2><button class="icon-btn" style="width:40px;height:40px" data-action="theme-toggle" aria-label="สลับธีม">${state.theme==='dark'?'☼':'◐'}</button></div>
   <div class="review-code">หน้า <strong id="current-code">${state.currentId}</strong>${SCREEN_BY_ID[state.currentId]?.phase?'<span class="pill warning">phase ถัดไป</span>':''}</div>
+  ${paletteSection}
   <div class="review-role-tabs">${ROLE_ORDER.map(r=>`<button class="${role===r?'active':''}" data-review-role="${r}">${ROLE_META[r].label}</button>`).join('')}</div>
   <select class="review-select" data-screen-select aria-label="เลือกหน้า">${items.map(s=>`<option value="${s.id}" ${s.id===state.currentId?'selected':''}>${s.id} · ${escapeHTML(s.title)}${s.phase?' · phase ถัดไป':''}</option>`).join('')}</select>
   <div class="review-list">${items.map(s=>`<button class="review-link ${s.id===state.currentId?'active':''}" data-route="${s.id}"><code>${s.id}</code><span>${escapeHTML(s.title)}</span>${s.phase?'<span class="pill warning">ถัดไป</span>':''}</button>`).join('')}</div>
@@ -71,7 +75,6 @@ function panelMarkup() {
   <div class="review-section"><h3>สถานะหน้าปัจจุบัน</h3>${stateOptions?`<select class="review-select" data-state-select>${stateOptions.map(opt=>`<option value="${escapeHTML(opt)}" ${opt===selected?'selected':''}>${escapeHTML(opt)}</option>`).join('')}</select>`:`<div class="muted small">หน้านี้แสดงสถานะข้อมูลตัวอย่าง</div>`}</div>
   ${state.currentId==='C-20'?`<div class="review-section"><div class="row-between"><strong class="small">Keyboard demo</strong><button class="btn inline secondary" data-action="p3-keyboard-toggle">${state.keyboardOpen?'ซ่อน':'แสดง'}</button></div>${state.keyboardOpen?keyboardDemo():'<div class="muted micro">ย้ายแป้นพิมพ์มาไว้ใน review panel แล้ว</div>'}</div>`:''}
   ${demoMarkup(state.currentId)}
-${paletteSection}
   <div class="review-section"><div class="row-between"><div><strong class="small">${state.theme==='dark'?'Dark mode':'Light mode'}</strong><div class="muted micro">theme tokens CSS variables</div></div><button class="switch ${state.theme==='dark'?'on':''}" data-action="theme-toggle" aria-label="สลับธีม"></button></div></div>`;
 }
 let otpTimer;
@@ -135,9 +138,10 @@ function render() {
   const current=SCREEN_BY_ID[id];
   const screen=renderScreen(id,ctx());
   const brandRole=getRole(id);
+  const keep=['.review-panel','.review-list','.mobile-drawer'].map(sel=>[sel,app.querySelector(sel)?.scrollTop||0]);
   app.innerHTML=`<div class="workspace">
     <aside class="brand-rail"><div><span class="rail-kicker">RMA DELIVERY · R1 REVIEW</span><h1>ทุกการเดินทาง<br>เริ่มจากบริการที่เข้าใจง่าย</h1></div><p>Interactive mobile prototype · ลูกค้า · ร้านค้า · ไรเดอร์/คนขับ</p><div class="row"><span class="pill brand">80 screens</span><span class="pill success">clickable</span></div><div class="rail-note"><span class="status-dot"></span><span>ตัวอย่างข้อมูลจำลอง · ไม่มีการเชื่อมระบบจริง</span></div><div class="rail-note">กำลังดู: <strong>${id}</strong> · ${current?escapeHTML(current.title):''}</div></aside>
-    <div class="phone-column"><main class="phone" aria-label="ตัวอย่างหน้าจอมือถือ"><div class="phone-status"><span>9:41</span><span>●●●　◔　▰</span></div><section class="screen-host" id="screen-host"><div class="screen-content">${screen}</div></section><div class="toast-region" id="toast-region"></div></main></div>
+    <div class="phone-column"><main class="phone" data-role="${brandRole}" aria-label="ตัวอย่างหน้าจอมือถือ"><div class="phone-status"><span>9:41</span><span>●●●　◔　▰</span></div><section class="screen-host" id="screen-host"><div class="screen-content">${screen}</div></section><div class="toast-region" id="toast-region"></div></main></div>
     <aside class="review-panel">${panelMarkup()}</aside>
     <button class="drawer-toggle" data-action="open-drawer">☷ Review · ${id}</button>
     <div class="drawer-backdrop ${state.drawerOpen?'open':''}" data-action="close-drawer"><div class="mobile-drawer" data-modal-inner>${panelMarkup()}</div></div>
@@ -145,6 +149,7 @@ function render() {
   </div>`;
   const chatFrom = id === "C-13" && (state.previousId?.startsWith("M-") || state.previousId?.startsWith("R-")) ? state.previousId[0] : "C";
   app.querySelector(".phone")?.setAttribute("data-chat-from", chatFrom);
+  keep.forEach(([sel,top])=>{const el=app.querySelector(sel);if(el)el.scrollTop=top;});
   if(id==='A-04') startOtpCountdown();
   if(id==='C-05') applyP3Search();
   document.documentElement.lang=state.appLang;
