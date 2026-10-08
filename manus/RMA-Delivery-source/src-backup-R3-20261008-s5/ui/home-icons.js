@@ -26,7 +26,6 @@ const ICONS = Object.freeze({
   notifications: "notifications",
   inbox: "inbox",
   wifiOff: "wifi_off",
-  check: "check",
   checkCircle: "check_circle",
   payments: "payments",
   camera: "photo_camera",

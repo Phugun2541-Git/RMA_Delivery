@@ -82,6 +82,10 @@ function applyP3Refinements(markup, id, ctx) {
     });
     if (!html.includes("restaurant-row")) html += `${card("<strong>ยังไม่มีร้านโปรด</strong><p class=\"muted small\">ค้นหาร้านใหม่แล้วกดหัวใจเพื่อบันทึก</p>")}${button("ค้นหาร้าน", { route: "C-05" })}`;
   }
+  if (id === "C-01") {
+    const phase = `<section class="section p3-phase-services"><div class="section-head"><h3>บริการเพิ่มเติม</h3><span class="pill warning">เร็ว ๆ นี้</span></div><div class="p3-phase-grid"><button class="card phase-mini" data-action="p3-phase-service"><strong>ส่งของ</strong><small>รับ–ส่งพัสดุในเมือง</small><span class="pill warning">เร็ว ๆ นี้</span></button><button class="card phase-mini" data-action="p3-phase-service"><strong>บริการในบ้าน</strong><small>ช่างและผู้ช่วยที่ไว้ใจได้</small><span class="pill warning">เร็ว ๆ นี้</span></button></div></section>`;
+    html = html.includes('<nav class="bottom-nav"') ? html.replace('<nav class="bottom-nav"', `${phase}<nav class="bottom-nav"`) : `${html}${phase}`;
+  }
   if (id === "R-02" && ctx.state === "อนุมัติแล้ว") {
     html = html.replace("กำลังตรวจสอบเอกสารคนขับ", "เอกสารผ่าน พร้อมรับงาน").replaceAll("กำลังตรวจ", "อนุมัติแล้ว").replaceAll("รอตรวจ", "ผ่าน");
     html += button("เริ่มรับงาน", { route: "R-03" });
