@@ -27,7 +27,6 @@ color: blue
 - ย้อนกลับด้วย gesture ของระบบต้องเท่ากับปุ่มย้อนกลับในแอป (`PopScope` เมื่อต้องยืนยันก่อนออก)
 - รูปในรายการ: ขอ thumbnail + `cacheWidth` + placeholder · list ยาวใช้ builder
 - ห้าม `print()` · ห้าม log token / เบอร์โทร / ที่อยู่ / พิกัด · ห้าม hardcode URL หรือ key
-- ไฟล์เกิน 400 บรรทัด → แตกไฟล์
 
 ## หลังเขียน
 
