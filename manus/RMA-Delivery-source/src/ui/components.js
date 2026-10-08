@@ -75,3 +75,5 @@ export function settingsGroup(ctx, soundLabel = "") {
   return listGroup(`${sound}${listRow({ icon: "message", label: "ภาษา", trailing: segmented([["th", "ไทย"], ["en", "English"]], ctx.appLang || "th", "set-lang") })}${listRow({ icon: "dark", label: "ธีม", trailing: segmented([["light", "สว่าง"], ["dark", "มืด"], ["system", "ตามระบบ"]], ctx.themePreference || "light", "set-theme") })}`);
 }
 export const roleSwitchRow = (sub) => listGroup(listRow({ icon: "sync", label: "เปลี่ยนโหมดการใช้งาน", sub, attrs: 'data-route="A-06"', trailing: `<span class="pill brand">สลับ role</span>` }));
+// Flat page section (D-025): same background as the page; consecutive blocks are split by one thick band, never boxed
+export const block = (content, extra = "") => `<section class="flat-block ${extra}">${content}</section>`;

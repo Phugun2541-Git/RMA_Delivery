@@ -78,4 +78,5 @@ export default {
 "ถึงร้านแล้วแจ้งได้เลย": "Let me know when you arrive",
 "โหมดการใช้งาน": "App mode",
 "เหตุผลการยกเลิก": "Cancellation reason",
+"การแสดงผล": "Display",
 }

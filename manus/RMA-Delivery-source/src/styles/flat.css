@@ -89,7 +89,8 @@
 .home-more-tag { flex: 0 0 auto; padding: 3px 9px; border-radius: var(--radius-pill); background: var(--warning-soft); color: var(--warning); font-size: 11px; font-weight: 600; }
 
 /* ---------- Shared flat list (listGroup / listRow / faq / rowCard / accountFooter) ---------- */
-.list-group { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+/* top rule only: two groups in a row must never draw a double line (owner review) */
+.list-group { border-top: 1px solid var(--line); }
 .list-row { width: 100%; min-height: 56px; display: flex; align-items: center; gap: 12px; padding: 12px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--text); font: inherit; font-size: var(--font-sm); text-align: left; }
 .list-row:last-child { border-bottom: 0; }
 button.list-row { cursor: pointer; }
@@ -130,3 +131,14 @@ button.list-row { cursor: pointer; }
 .review-row p { margin: 4px 0; }
 .review-stars { display: inline-flex; gap: 1px; color: var(--warning); }
 .review-stars .home-symbol { font-variation-settings: "FILL" 1; }
+
+/* ---------- block(): flat page sections split by one thick band (C-09, M-09, M-11, R-13) ---------- */
+.flat-block { padding: 14px 0; }
+.flat-block + .flat-block { margin: 0 -18px; padding: 14px 18px; border-top: 8px solid var(--surface-2); }
+.flat-block > strong:first-child, .flat-block > .row-between:first-child { margin-bottom: 6px; }
+.flat-block .info-row:last-of-type { border-bottom: 0; }
+
+/* ---------- M-15 promotions ---------- */
+.promo-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.promo-row:last-child { border-bottom: 0; }
+.promo-copy { min-width: 0; }

@@ -21,6 +21,8 @@ Anthropic `frontend-design` skill (installed beside this one — its "SaaS-card 
 - **Never nest** card → card. If a card's child also looks like a card, flatten the child.
 - Section = small heading (`--font-sm` bold) + rows + 1px `--line` divider. Gap between sections 16–24px, not a box.
 - List divider is inset to start where the text starts (after the thumbnail), Material/iOS style. Last row: no divider.
+- **Never draw two lines next to each other** (owner review): a list group draws only its top rule; rows draw a bottom rule except the last. Consecutive sections are split by ONE thick band (`block()`), not a line + a gap + a line.
+- Shared helpers in the mockup: `listGroup` · `listRow` · `block` · `profileRow` · `settingsGroup` · `roleSwitchRow` (`src/ui/components.js`).
 
 ## 2. List row anatomy
 ```
