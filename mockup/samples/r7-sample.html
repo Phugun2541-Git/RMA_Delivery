@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>R7 Size Proposal</title>
+  <meta name="description" content="RMA Delivery R7 proposal: C-16 history screen, current vs two proposals for chip sizes, icon scale, bottom navigation and surface colours." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..600,0..1,-25..0&amp;icon_names=arrow_back,arrow_back_ios_new,auto_awesome,chat_bubble,check,chevron_right,directions_car,expand_more,home,inventory_2,notifications,person,receipt_long,restaurant,search,tune&amp;display=block" rel="stylesheet" />
+  <link rel="stylesheet" href="./r7-sample.css" />
+</head>
+<body>
+  <header class="page-head">
+    <div class="page-intro">
+      <h1>R7 · ขนาดปุ่ม ไอคอน แถบเมนู และสีพื้น</h1>
+      <p>หน้า <strong>C-16 รายการของคุณ</strong> แบบเดียวกัน 3 เวอร์ชัน · <strong>A</strong> = ของจริงตอนนี้ (ภาพจาก R6) · <strong>B</strong> และ <strong>C</strong> = ข้อเสนอ แก้ครบ 4 ข้อที่เจ้าของขอ · ใต้แต่ละจอมีสเปกและแถบชิ้นส่วนให้เทียบขนาดตรง ๆ · กดชิป แท็บ และเมนูล่างใน B/C ได้</p>
+    </div>
+    <div class="page-controls">
+      <div class="pg-seg" role="group" aria-label="ธีม">
+        <button type="button" data-theme-set="light" aria-pressed="true">สว่าง</button>
+        <button type="button" data-theme-set="dark" aria-pressed="false">มืด</button>
+      </div>
+      <label class="pg-select">โทนสีลูกค้า
+        <select id="palette">
+          <option value="aurora">Aurora (ค่าเริ่มต้น)</option>
+          <option value="lagoon">Lagoon</option>
+          <option value="rosewood">Rosewood</option>
+          <option value="saffron">Saffron</option>
+          <option value="chili">Chili</option>
+        </select>
+      </label>
+      <label class="pg-check"><input type="checkbox" id="show-hit" /> แสดงพื้นที่กด</label>
+    </div>
+  </header>
+
+  <main class="columns" id="columns"></main>
+
+  <section class="notes" aria-label="หมายเหตุ">
+    <h2>สิ่งที่ยังไม่เปลี่ยนในทั้ง 3 เวอร์ชัน</h2>
+    <p>โครงหน้า (D-031 แถวประวัติตามภาพอ้างอิง) · ข้อมูล · สีแบรนด์และโทนสี C-01 · สีสถานะ (กำลังดำเนินการ / เสร็จแล้ว / ยกเลิก) · ฟอนต์ IBM Plex Sans Thai · ไอคอน Material Symbols Rounded · หลัก flat ของ D-025</p>
+    <p>A เป็นภาพหน้าจอโทน Aurora จึงไม่เปลี่ยนตามตัวเลือกโทนสี ส่วนแถบชิ้นส่วนของ A วาดใหม่จากค่า CSS ปัจจุบัน · ตัวเลข hex ใต้ B/C อ่านจากสีที่แสดงจริงบนจอ (เปลี่ยนตามธีมและโทนสี)</p>
+  </section>
+
+  <script type="module" src="./r7-sample.js"></script>
+</body>
+</html>

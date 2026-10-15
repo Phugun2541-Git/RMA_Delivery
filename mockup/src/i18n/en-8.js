@@ -1,0 +1,50 @@
+// R9 (2026-10-15): rider availability — online switch, job-type switches, server states (D-033)
+// Numbers are matched as {n} (see i18n/index.js lookupDict).
+export default {
+// status header (R-03) + pill (other rider tabs)
+"ออนไลน์": "Online",
+"ออฟไลน์": "Offline",
+"กำลังหางาน": "Finding jobs",
+"เปิดเพื่อเริ่มรับงาน": "Switch on to start taking jobs",
+"กำลังเปิดรับงาน…": "Going online…",
+"กำลังพักรับงาน…": "Going offline…",
+"พักหลังส่งงานนี้": "Pause after this job",
+"ไม่รับงานใหม่": "No new jobs",
+"เปิดรับงานไม่ได้": "Can't go online",
+"ระบบพักรับงานให้": "Paused by the system",
+"กำลังเชื่อมต่อ": "Connecting",
+"พักหลังงานนี้": "Pausing",
+"สถานะรับงาน": "Job status",
+"การรับงาน": "Taking jobs",
+// job types
+"ประเภทงาน": "Job types",
+"รับงานพ่วงได้": "Stacked orders OK",
+"รถยนต์": "Car",
+"ไม่รับงานอื่นระหว่างเที่ยว": "No other jobs during a trip",
+"เปิดไว้อย่างน้อย {n} ประเภท": "Keep at least {n} type on",
+"รับได้ครั้งละ {n} งาน": "One job at a time",
+// map overlay notices (server refusal / forced offline / job in progress)
+"ใบขับขี่หมดอายุ": "Driving licence expired",
+"อัปเดตเอกสารก่อนเปิดรับงาน": "Update your documents to go online",
+"อัปเดตเอกสาร": "Update documents",
+"บัญชีถูกระงับชั่วคราว": "Account temporarily suspended",
+"ติดต่อศูนย์ช่วยเหลือเพื่อตรวจสอบ": "Contact the help centre to review it",
+"ติดต่อศูนย์ช่วยเหลือ": "Contact help centre",
+"อยู่นอกพื้นที่ให้บริการ": "Outside the service area",
+"เข้าเขตให้บริการแล้วเปิดอีกครั้ง": "Move into the service area and try again",
+"ดูพื้นที่ให้บริการ": "View service area",
+"ระบบพักรับงานให้แล้ว": "You've been set to offline",
+"ไม่ได้ใช้งานนาน {n} นาที": "Inactive for {n} minutes",
+"รับทราบ": "Got it",
+"งานที่กำลังทำ": "Job in progress",
+"เปิดสถานะเพื่อรับงานต่อ": "Switch on to keep taking jobs",
+"ระบบพักรับงาน": "Set offline by the system",
+// pause-after-job dialog
+"พักรับงานหลังส่งงานนี้?": "Pause after this job?",
+"ส่งงานที่ทำอยู่ให้เสร็จก่อน": "Finish the current job first",
+"ระหว่างนี้ไม่มีงานใหม่เข้า และระบบจะพักรับงานให้เมื่อส่งเสร็จ": "No new jobs meanwhile; you go offline when it's delivered",
+// snackbar + toasts
+"ลองอีกครั้ง": "Try again",
+"แสดงขอบเขตพื้นที่ให้บริการบนแผนที่": "Showing the service area on the map",
+"ส่งงานเสร็จ": "Job delivered",
+};

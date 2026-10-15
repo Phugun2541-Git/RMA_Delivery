@@ -1,0 +1,33 @@
+/* Phone shell (Task A): app bar on top · one scrollable body · dock (action bars + bottom nav) pinned to the bottom edge. */
+.phone-column { flex: 0 1 390px; width: 100%; min-width: 0; }
+.screen-host {
+  --screen-pad: 18px;
+  flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 0;
+  background: var(--bg);
+}
+@media (max-width: 520px) { .screen-host { --screen-pad: 16px; } }
+@media (max-width: 360px) { .screen-host { --screen-pad: 13px; } }
+.screen-top { flex: 0 0 auto; padding: 10px var(--screen-pad) 0; position: relative; z-index: 5; }
+.screen-scroll {
+  flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+}
+.screen-scroll::-webkit-scrollbar { width: 4px; }
+.screen-scroll::-webkit-scrollbar-thumb { background: var(--line); border-radius: 9px; }
+.screen-content { flex: 1 0 auto; min-width: 0; padding: 10px var(--screen-pad) 22px; background: none; background-color: transparent; }
+.screen-top + .screen-scroll .screen-content { padding-top: 0; }
+.screen-dock { flex: 0 0 auto; position: relative; z-index: 6; background: var(--chrome); }
+.screen-dock > * { position: static; inset: auto; margin: 0; }
+.screen-dock > .sticky-action { padding-left: var(--screen-pad); padding-right: var(--screen-pad); }
+.screen-dock > .p2-cart-fab { margin: 8px var(--screen-pad); }
+.screen-dock > .chat-compose, .screen-dock > .p2-quick-replies { padding-left: var(--screen-pad); padding-right: var(--screen-pad); }
+@media (max-width: 850px) { .workspace { gap: 0; } }
+#modal-root:empty { display: none; }
+/* C-07 is a bottom sheet over its parent screen: the stage fills the whole scroll area, the sheet is pinned to the bottom edge and scrolls internally */
+.screen-content:has(> .menu-sheet-stage) { display: flex; flex-direction: column; padding: 0; }
+.menu-sheet-stage { flex: 1 0 auto; min-height: 0; margin: 0; }
+.menu-sheet-underlay { padding: 10px var(--screen-pad) 80px; }
+/* Map-first screens (C-12 R-05 R-07 R-16 R-17): the map takes the spare height so the sheet/cards sit on the bottom edge */
+.screen-content:has(> .map-full:first-child) { display: flex; flex-direction: column; }
+.screen-content > .map-full:first-child { flex: 1 0 300px; }
+.screen-content:has(> .customer-home) { overflow-x: clip; }

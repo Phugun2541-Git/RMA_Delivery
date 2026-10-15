@@ -1,0 +1,145 @@
+:root {
+  color-scheme: light;
+  /* R8 surfaces (D-032, from the R7 grouped proposal): grey page · white lists/cards/sheets/unselected chips · bar tone for the bottom nav and action bars */
+  --bg: #F2F1F6;
+  --surface: #FFFFFF;
+  --chrome: #F9F9FB;
+  --surface-2: #EBEAF0;
+  --surface-3: #E2E1E7;
+  --text: #211D2B;
+  --text-soft: #514C5B;
+  --muted: #635E6B;
+  --line: #E2E1E7;
+  /* outline = the only visible edge of chips, dropdowns, segmented buttons, outlined buttons, text fields: 3.78:1 on --surface, 3.37:1 on --bg */
+  --outline: #84828C;
+  --brand: #5945C7;
+  --brand-strong: #44339C;
+  --on-brand: #FFFFFF;
+  --brand-soft: #EEEAFE;
+  --accent: #8B5D00;
+  --focus: #7A4A00;
+  --success: #16734F;
+  --success-soft: #E5F4EC;
+  --warning: #8C5708;
+  --warning-soft: #FFF2D7;
+  --danger: #B83A43;
+  --on-danger: #FFFFFF;
+  --danger-soft: #FDEBED;
+  --info: #315B9B;
+  --info-soft: #E8F0FC;
+  --shadow: 0 20px 55px rgba(38, 27, 59, .13);
+  --shadow-soft: 0 5px 18px rgba(38, 27, 59, .07);
+  --shadow-card: 0 10px 24px rgba(38, 27, 59, .065), 0 2px 6px rgba(38, 27, 59, .035);
+  --radius-xs: 10px;
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --font-xs: 12px;
+  --font-sm: 14px;
+  --font-md: 16px;
+  --font-lg: 20px;
+  --font-xl: 24px;
+  --font-2xl: 30px;
+  --tap: 48px;
+  /* R8 size system (D-032, Material 3): chip 32 · control 40 · button 48 · icons 24 in a 48 hit area · nav bar 64 */
+  --chip-h: 32px;
+  --chip-r: 8px;
+  --chip-px: 12px;
+  --ctl-h: 40px;
+  --ctl-r: 20px;
+  --ctl-px: 16px;
+  --btn-h: 48px;
+  --btn-r: 24px;
+  --btn-px: 24px;
+  --icon: 24px;
+  --icon-sm: 18px;
+  --hit: 48px;
+  --press: 40px;
+  --lead: 40px;
+  --card-r: 16px;
+  --sheet-r: 28px;
+  --nav-h: 64px;
+  --nav-ind-w: 56px;
+  --nav-ind-h: 32px;
+  --nav-label: 12px;
+  --band-gap: 12px;
+  /* R9 switch (M3: track 52×32 with a 2px outline when off · thumb 16 off / 24 on · whole row is the 48+ hit area) */
+  --switch-w: 52px;
+  --switch-h: 32px;
+  --on-success: #FFFFFF;
+  /* R9 snackbar (M3 inverse surface) */
+  --inverse-surface: #322F37;
+  --inverse-on-surface: #F5EFF7;
+  --inverse-primary: #CFBCFF;
+  --state-hover: .08;
+  --state-press: .12;
+  --ease: 180ms cubic-bezier(.2,.75,.25,1);
+  /* R6: role identity colours used outside the role's own phone frame (A-06 role switch) */
+  --role-m: #176E66;
+  --role-m-soft: #E7F3F1;
+  --role-r: #345FA5;
+  --role-r-soft: #EAF0FB;
+  /* R6: phone OS chrome (S-06 notification shade, heads-up banner). Not app brand colours. */
+  --os-wall: #1D1A26;
+  --os-wall-2: #3A2F55;
+  --os-card: #F6F3FA;
+  --os-card-text: #1C1A22;
+  --os-card-muted: #5E5868;
+  --os-on-wall: #FFFFFF;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0E0D12;
+  --surface: #1C1B21;
+  --chrome: #17161C;
+  --surface-2: #2A2930;
+  --surface-3: #34333B;
+  --text: #F5F1FC;
+  --text-soft: #D6D0E0;
+  --muted: #B6AFBF;
+  --line: #313038;
+  --outline: #76747F;
+  --brand: #B5AAFF;
+  --brand-strong: #D0C9FF;
+  --on-brand: #171420;
+  --brand-soft: #302A4C;
+  --accent: #FFC96A;
+  --focus: #FFC96A;
+  --success: #73DDB0;
+  --success-soft: #19372D;
+  --warning: #FFD084;
+  --warning-soft: #45351B;
+  --danger: #FF9299;
+  --on-danger: #29131A;
+  --danger-soft: #47262D;
+  --info: #9ABAF2;
+  --info-soft: #242F43;
+  --on-success: #0F2A20;
+  --inverse-surface: #E6E1E9;
+  --inverse-on-surface: #322F37;
+  --inverse-primary: #5945C7;
+  --shadow: 0 20px 55px rgba(0, 0, 0, .38);
+  --shadow-soft: 0 5px 18px rgba(0, 0, 0, .24);
+  --shadow-card: 0 10px 26px rgba(0, 0, 0, .27), 0 2px 7px rgba(0, 0, 0, .16);
+  --role-m: #73D0C5;
+  --role-m-soft: #1A3937;
+  --role-r: #9ABAF2;
+  --role-r-soft: #242F43;
+  --os-wall: #0C0B10;
+  --os-wall-2: #241E36;
+  --os-card: #2A2633;
+  --os-card-text: #F3EFF8;
+  --os-card-muted: #B9B2C4;
+}
+
+* { box-sizing: border-box; }

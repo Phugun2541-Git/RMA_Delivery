@@ -1,0 +1,332 @@
+/* R8 design system (D-032) — owner mix of the R7 proposals:
+   surfaces from C (grouped: grey page · white lists/cards/sheets/unselected chips · bar tone for nav and action bars)
+   + controls from B (Material 3: chip 32 · control 40 · button 48 · icons 24 in a 48 hit area · navigation bar 64).
+   Loaded last. One definition per shared component; every value comes from tokens.css. */
+
+/* ---------- Icons: size comes from the component, not the call site ---------- */
+.material-symbols-rounded.home-symbol { font-size: var(--icon-size, 1em); }
+
+/* ---------- Surfaces ---------- */
+
+/* White bands on the grey page (D-025 reading for R8): a list or page section is ONE full-width flat band —
+   square edges, no border, no shadow, rows split by inset dividers. Bands never nest; the grey gap between two bands
+   replaces the old 8px divider band. Real cards / sheets / dialogs keep their own shape. */
+.screen-content > :is(.list-group, .history-list, .cart-list, .m-menu-list, .flat-block, .store-list, .info-tile, .driver-row, .p2-task-options, .step-list, .price-block, .home-more-list),
+:is(.screen-content, .screen-content > div:not([class])) > .section > :is(.list-group, .info-list, .menu-list, .store-list, .history-list, .step-list),
+.customer-home > .home-more > .home-more-list {
+  margin: var(--band-gap) calc(var(--screen-pad) * -1);
+  padding-left: var(--screen-pad);
+  padding-right: var(--screen-pad);
+  border-top: 0;
+  background: var(--surface);
+}
+:is(.screen-content, .screen-content > div:not([class])) > .section > :is(.list-group, .info-list, .menu-list, .store-list, .history-list, .step-list) { margin-top: 0; margin-bottom: 0; }
+.store-list:empty { display: none; }
+.screen-content > :is(.flat-block, .price-block) { padding-top: 14px; padding-bottom: 14px; }
+.screen-content > :is(.info-tile, .driver-row) { padding-top: 12px; padding-bottom: 12px; }
+.screen-content > :is(.info-tile, .driver-row) + :is(.info-tile, .driver-row) { margin-top: calc(var(--band-gap) * -1); box-shadow: inset 0 1px 0 var(--line); }
+.screen-content > :is(.p2-task-options, .step-list) { padding-top: 4px; padding-bottom: 4px; }
+/* C-12: the tracking sheet sits on the bottom edge (no grey strip under it) */
+.screen-content:has(> .map-full:first-child):has(> .tracking-sheet:last-child) { padding-bottom: 0; }
+.screen-content > .list-label-row + :is(.list-group, .history-list, .store-list),
+.screen-content > .u-tabs + :is(.list-group, .history-list) { margin-top: 0; }
+.screen-content > :first-child:is(.list-group, .history-list, .cart-list, .m-menu-list, .flat-block, .store-list) { margin-top: 0; }
+
+/* Cards: real objects only (active order, promo, map overlay) — flat white, one radius, no border/gradient */
+.card { margin: 10px 0; padding: 16px; border: 0; border-radius: var(--card-r); background: var(--surface); box-shadow: none; }
+.card.soft { background: var(--surface-2); }
+.card.tint { background: var(--brand-soft); }
+.screen-content > .map-full ~ .card { box-shadow: var(--shadow-soft); }
+
+/* Sheets and dialogs: white, M3 extra-large radius, no outline */
+.modal { padding: 20px; border: 0; border-radius: var(--sheet-r); background: var(--surface); box-shadow: var(--shadow); }
+.modal.sheet { border-radius: var(--sheet-r) var(--sheet-r) 0 0; }
+.menu-detail-sheet { border: 0; border-radius: var(--sheet-r) var(--sheet-r) 0 0; background: var(--surface); }
+.mobile-drawer { border: 0; }
+
+/* ---------- App bar · icon buttons (24 glyph · 48 hit · no visible box · 40 circle state layer) ---------- */
+.appbar { min-height: 56px; display: flex; align-items: center; gap: 4px; margin: 0 0 8px; }
+.appbar > .back-btn:first-child { margin-left: -12px; }
+.appbar > :is(.icon-btn, .bell-wrap):last-child { margin-right: -12px; }
+.appbar-title strong { font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+.icon-btn, .back-btn {
+  position: relative; flex: 0 0 var(--hit); width: var(--hit); height: var(--hit);
+  display: inline-grid; place-items: center; padding: 0; border: 0; border-radius: 50%;
+  background: transparent; color: var(--text-soft); box-shadow: none; cursor: pointer;
+}
+.back-btn { color: var(--text); }
+.icon-btn .home-symbol, .back-btn .home-symbol { position: relative; font-size: var(--icon); }
+.icon-btn::before, .back-btn::before {
+  content: ""; position: absolute; inset: calc((var(--hit) - var(--press)) / 2); border-radius: 50%;
+  background: currentColor; opacity: 0; transition: opacity 120ms ease-out; pointer-events: none;
+}
+@media (hover: hover) { .icon-btn:hover::before, .back-btn:hover::before { opacity: var(--state-hover); } }
+.icon-btn:active::before, .back-btn:active::before { opacity: var(--state-press); }
+.icon-btn:disabled { color: var(--muted); opacity: .5; cursor: not-allowed; }
+/* In-content contact actions (call · chat · navigate) = M3 filled tonal icon button: the 40 circle stays visible */
+.icon-btn.tonal { color: var(--brand-strong); }
+.icon-btn.tonal::before { opacity: 1; background: var(--brand-soft); }
+.icon-btn.tonal:active::before { opacity: 1; background: color-mix(in srgb, var(--brand-strong) 14%, var(--brand-soft)); }
+/* SOS stays a visible danger circle: an emergency control must be findable at a glance (deliberate exception) */
+.icon-btn.sos-btn { color: var(--danger); }
+.icon-btn.sos-btn::before { opacity: 1; background: var(--danger-soft); }
+/* Map floating action (on top of a map image a bare glyph is unreadable) */
+.icon-btn.map-fab { width: 56px; height: 56px; border-radius: 16px; background: var(--brand); color: var(--on-brand); box-shadow: var(--shadow-soft); }
+.icon-btn.map-fab::before { inset: 0; border-radius: inherit; }
+
+/* Bell + badge (M3 large badge 16) */
+.bell-wrap { position: relative; display: inline-flex; flex: none; }
+.bell-badge {
+  position: absolute; top: 6px; right: 6px; min-width: 16px; height: 16px; display: grid; place-items: center; padding: 0 4px;
+  border: 0; border-radius: 8px; background: var(--danger); color: var(--on-danger); box-shadow: 0 0 0 2px var(--bg);
+  font: 700 10px/16px Inter, sans-serif; pointer-events: none;
+}
+.modal .bell-badge, .card .bell-badge { box-shadow: 0 0 0 2px var(--surface); }
+.sheet-head .icon-btn { margin-right: -12px; }
+
+/* ---------- Buttons: primary 48 r24 · inline 40 r20 (hit 48) · text 40 ---------- */
+.btn {
+  position: relative; width: 100%; min-height: var(--btn-h); display: inline-flex; justify-content: center; align-items: center; gap: 8px;
+  padding: 8px var(--btn-px); border: 0; border-radius: var(--btn-r); background: var(--brand); color: var(--on-brand);
+  font-size: 15px; font-weight: 600; line-height: 1.3; box-shadow: none; cursor: pointer; isolation: isolate;
+  transition: background-color var(--ease), opacity var(--ease), transform 120ms ease-out;
+}
+.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: currentColor; opacity: 0; transition: opacity 120ms ease-out; pointer-events: none; }
+@media (hover: hover) { .btn:not(:disabled):hover::before { opacity: var(--state-hover); } }
+.btn:not(:disabled):active { transform: scale(.98); }
+.btn:not(:disabled):active::before { opacity: var(--state-press); }
+.btn.secondary { border: 0; background: var(--brand-soft); color: var(--brand-strong); }
+.btn.ghost { border: 1px solid var(--outline); background: transparent; color: var(--text); }
+.btn.danger { background: var(--danger); color: var(--on-danger); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.inline { width: auto; min-height: var(--ctl-h); padding: 0 var(--ctl-px); border-radius: var(--ctl-r); font-size: 14px; }
+.btn.inline::after { content: ""; position: absolute; inset: calc((var(--ctl-h) - var(--hit)) / 2) 0; }
+.btn.pressed-demo { transform: scale(.98); }
+.btn.pressed-demo::before { opacity: var(--state-press); }
+.btn-row { display: flex; gap: 8px; }
+.btn-row > * { flex: 1; min-width: 0; }
+.btn-row > .btn { padding-left: 16px; padding-right: 16px; }
+.sticky-action .btn-row, .sticky-action > .btn + .btn { margin-top: 0; }
+
+.text-btn, .section-head a {
+  position: relative; min-height: var(--ctl-h); display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  padding: 0 12px; border: 0; border-radius: var(--ctl-r); background: transparent; color: var(--brand-strong);
+  font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.text-btn::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: currentColor; opacity: 0; transition: opacity 120ms ease-out; pointer-events: none; }
+.text-btn::after { content: ""; position: absolute; inset: calc((var(--ctl-h) - var(--hit)) / 2) 0; }
+@media (hover: hover) { .text-btn:not(:disabled):hover::before { opacity: var(--state-hover); } }
+.text-btn:not(:disabled):active::before { opacity: var(--state-press); }
+.text-btn:disabled { color: var(--muted); cursor: not-allowed; }
+.screen-content > .text-btn:not(.sheet-text-btn) { margin-left: -12px; }
+.sheet-text-btn { display: flex; width: 100%; min-height: var(--btn-h); margin-top: 4px; }
+.sheet-text-btn::after { inset: 0; }
+
+/* Selected fill (chips · segments · dropdown · nav indicator) = brand-soft with 12% brand so the shape still reads on white and on the grey page.
+   Declared on the components (not :root) so it follows each palette / role brand. */
+.chip, .seg-btn, .filter-chip, .nav-item { --sel: color-mix(in srgb, var(--brand) 12%, var(--brand-soft)); }
+
+/* ---------- Chips: 32 · r8 · pad 12 · outline · white; selected = brand-soft + check 18 · hit 48 ---------- */
+.chip-list { display: flex; gap: 8px; overflow-x: auto; padding: 8px 0; scrollbar-width: none; }
+.chip-list::-webkit-scrollbar { display: none; }
+/* long chip rows in the page flow scroll edge to edge and start/stop on the content edge */
+.screen-content > .chip-list, .screen-content > .section > .chip-list, .screen-content > .form-field > .chip-list, .wizard-body .chip-list {
+  margin-left: calc(var(--screen-pad) * -1); margin-right: calc(var(--screen-pad) * -1);
+  padding-left: var(--screen-pad); padding-right: var(--screen-pad); scroll-padding-inline: var(--screen-pad);
+}
+.chip {
+  position: relative; flex: 0 0 auto; height: var(--chip-h); min-height: 0; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 0 var(--chip-px); border: 1px solid var(--outline); border-radius: var(--chip-r); background: var(--surface); color: var(--text-soft);
+  font: inherit; font-size: 14px; font-weight: 500; line-height: 20px; white-space: nowrap; box-shadow: none; cursor: pointer;
+}
+.chip::after { content: ""; position: absolute; inset: calc((var(--chip-h) - var(--hit)) / 2) 0; }
+.chip.active, .chip[aria-pressed="true"] { padding-left: 8px; border-color: transparent; background: var(--sel); color: var(--brand-strong); font-weight: 600; }
+.chip.active::before, .chip[aria-pressed="true"]::before, .seg-btn.active::before {
+  content: "check"; width: var(--icon-sm); height: var(--icon-sm); overflow: hidden; flex: none;
+  font-family: "Material Symbols Rounded"; font-size: var(--icon-sm); font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal;
+  white-space: nowrap; direction: ltr; -webkit-font-feature-settings: "liga"; font-feature-settings: "liga";
+  font-variation-settings: "FILL" 0, "wght" 600, "GRAD" 0, "opsz" 20;
+}
+.chip:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* remove action next to a chip (C-05 recent searches) = M3 input-chip trailing icon size */
+.chip-list .icon-btn { flex: 0 0 40px; width: 40px; height: var(--chip-h); margin-left: -6px; }
+.chip-list .icon-btn .home-symbol { font-size: var(--icon-sm); }
+.chip-list .icon-btn::after { content: ""; position: absolute; inset: calc((var(--chip-h) - var(--hit)) / 2) 0; }
+.chip-list .icon-btn::before { inset: -4px 0; }
+.restaurant-row > .p3-favorite-remove { align-self: center; color: var(--brand); }
+.restaurant-row > .p3-favorite-remove .home-symbol { font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; }
+
+/* ---------- Segmented button (M3): 40 · r20 · equal-width · outline · selected = brand-soft + check ---------- */
+.seg { position: relative; width: 100%; height: var(--ctl-h); display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin: 4px 0; border: 1px solid var(--outline); border-radius: var(--ctl-r); background: var(--surface); }
+.seg-btn {
+  position: relative; min-width: 0; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 10px;
+  border: 0; background: transparent; color: var(--text); font: inherit; font-size: 14px; font-weight: 500; white-space: nowrap; cursor: pointer;
+}
+.seg-btn:first-child { border-radius: calc(var(--ctl-r) - 1px) 0 0 calc(var(--ctl-r) - 1px); }
+.seg-btn:last-child { border-radius: 0 calc(var(--ctl-r) - 1px) calc(var(--ctl-r) - 1px) 0; }
+.seg-btn + .seg-btn { border-left: 1px solid var(--outline); }
+.seg-btn::after { content: ""; position: absolute; inset: calc((var(--ctl-h) - var(--hit)) / 2 + 1px) 0; }
+.seg-btn.active { background: var(--sel); color: var(--brand-strong); font-weight: 600; }
+.seg-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+/* a segmented control inside a list row takes its own line under the label (3 equal segments do not fit beside a label at 360px) */
+.list-row:has(> .seg) { flex-wrap: wrap; row-gap: 8px; }
+.list-row > .seg { flex: 1 0 100%; margin: 0; }
+
+/* ---------- Toggle rows (choices without a separate control): flat row · divider · trailing checkbox when it is a toggle ---------- */
+.toggle-row {
+  width: 100%; min-height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0;
+  border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; color: var(--text); font: inherit; font-size: 14px; text-align: left; cursor: pointer;
+}
+.toggle-row:last-child { border-bottom: 0; }
+.toggle-row > span:first-child { display: inline-flex; align-items: center; gap: 12px; }
+.toggle-row input { width: 20px; height: 20px; accent-color: var(--brand); }
+.toggle-row.selected { color: var(--brand-strong); font-weight: 600; }
+button.toggle-row[aria-pressed]::after {
+  content: ""; flex: 0 0 22px; width: 22px; height: 22px; display: grid; place-items: center; border: 2px solid var(--outline); border-radius: 6px;
+  font-family: "Material Symbols Rounded"; font-size: 18px; font-weight: normal; line-height: 1; -webkit-font-feature-settings: "liga"; font-feature-settings: "liga";
+  font-variation-settings: "FILL" 0, "wght" 600, "GRAD" 0, "opsz" 20;
+}
+button.toggle-row[aria-pressed="true"]::after { content: "check"; border-color: var(--brand); background: var(--brand); color: var(--on-brand); }
+
+/* ---------- Switch (M3, R9): track 52×32 · 2px outline when off (3.78:1, the old borderless grey track was 1.3:1) · thumb 16 off / 24 on with a check ·
+   on = success (kept from the R5–R8 switch) · busy = hollow spinning thumb at the confirmed position (server has not answered yet) ·
+   locked = M3 disabled look (the last job type that must stay on). A bare switch button gets a 48 hit area; in a switch row the row is the target. ---------- */
+.switch {
+  --sw-x: 0px; --sw-s: .667;
+  position: relative; flex: 0 0 var(--switch-w); width: var(--switch-w); height: var(--switch-h); padding: 0;
+  border: 2px solid var(--outline); border-radius: calc(var(--switch-h) / 2); background: var(--surface-2); color: var(--success); cursor: pointer;
+  transition: background-color var(--ease), border-color var(--ease), opacity var(--ease);
+}
+button.switch::before { content: ""; position: absolute; inset: calc((var(--switch-h) - var(--hit)) / 2 - 2px) -4px; }
+.switch::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 24px; height: 24px; display: grid; place-items: center; box-sizing: border-box;
+  border-radius: 50%; background: var(--outline); transform: translateX(var(--sw-x)) scale(var(--sw-s));
+  font-family: "Material Symbols Rounded"; font-size: 16px; font-weight: normal; line-height: 1; -webkit-font-feature-settings: "liga"; font-feature-settings: "liga";
+  font-variation-settings: "FILL" 0, "wght" 600, "GRAD" 0, "opsz" 20; color: var(--success);
+  transition: transform 200ms cubic-bezier(.23, 1, .32, 1), background-color var(--ease);
+}
+.switch.on { --sw-x: 20px; --sw-s: 1; border-color: var(--success); background: var(--success); }
+.switch.on::after { content: "check"; background: var(--on-success); }
+.switch.busy { --sw-s: 1; cursor: progress; }
+.switch.busy::after {
+  content: ""; border: 2.5px solid currentColor; border-top-color: transparent; background: var(--surface);
+  animation: sw-spin 700ms linear infinite;
+}
+.switch.on.busy::after { color: var(--success); }
+.switch:not(.on).busy::after { color: var(--muted); }
+.switch.locked { opacity: .6; }
+.switch:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+@keyframes sw-spin { to { transform: translateX(var(--sw-x)) scale(1) rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .switch::after { transition: background-color var(--ease); }
+  .switch.busy::after { animation-duration: 1400ms; }
+}
+
+/* ---------- Controls 40 · r20: dropdown (filter-chip) · search field · text fields keep 48 with an outline ---------- */
+.filter-chip {
+  position: relative; flex: 0 0 auto; height: var(--ctl-h); min-height: 0; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px;
+  border: 1px solid var(--outline); border-radius: var(--ctl-r); background: var(--surface); color: var(--text); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.filter-chip .home-symbol { font-size: var(--icon-sm); color: var(--text-soft); }
+.filter-chip.active { border-color: transparent; background: var(--sel); color: var(--brand-strong); }
+.filter-chip.active .home-symbol { color: var(--brand-strong); }
+.filter-chip::after { content: ""; position: absolute; inset: calc((var(--ctl-h) - var(--hit)) / 2) 0; }
+.history-tools { display: flex; align-items: center; gap: 8px; margin: 4px 0 8px; padding: 4px 0; }
+.history-tools .searchbox { flex: 1; min-width: 0; }
+
+/* Search field: filled, no outline (identified by the search glyph + placeholder) — white on the grey page, grey fill on white surfaces */
+.searchbox {
+  position: relative; min-height: var(--ctl-h); display: flex; align-items: center; gap: 8px; padding: 0 var(--ctl-px) 0 12px;
+  border: 0; border-radius: var(--ctl-r); background: var(--surface); color: var(--text-soft); box-shadow: none; cursor: text;
+}
+.searchbox > span:first-child { display: grid; place-items: center; font-size: 20px; }
+.searchbox > span .home-symbol { font-size: 20px; }
+/* the input itself is the 48 touch target: 4px above and below the 40 visual box */
+.searchbox input { min-width: 0; flex: 1; height: var(--hit); margin: calc((var(--ctl-h) - var(--hit)) / 2) 0; padding: 0; border: 0; outline: 0; background: transparent; color: var(--text); font-size: 14px; }
+.searchbox input::placeholder { color: var(--muted); opacity: 1; }
+.searchbox:focus-within { box-shadow: inset 0 0 0 2px var(--brand); }
+/* message field with a send button (C-13): 48 tall so the send button keeps the 40 control size inside it */
+.searchbox:has(> .btn) { min-height: var(--btn-h); padding-right: 4px; border-radius: var(--btn-r); }
+.searchbox:has(> .btn) input { height: var(--btn-h); margin: 0; }
+.searchbox > .btn.inline { flex: none; }
+:is(.modal, .card, .menu-detail-sheet, .chat-compose, .list-group, .flat-block) .searchbox { background: var(--surface-2); }
+
+.field, .select, .textarea {
+  width: 100%; min-height: var(--btn-h); padding: 12px 14px; border: 1px solid var(--outline); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--text); box-shadow: none; outline: none; transition: border-color var(--ease), box-shadow var(--ease);
+}
+.select { min-height: var(--ctl-h); padding: 0 12px; }
+.textarea { min-height: 84px; resize: vertical; }
+.field::placeholder, .textarea::placeholder { color: var(--muted); opacity: 1; }
+.field:focus, .select:focus, .textarea:focus, .field.focus-demo { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+.field.error { border-color: var(--danger); box-shadow: inset 0 0 0 1px var(--danger); }
+
+
+/* ---------- Bottom navigation = M3 (flexible) navigation bar: 64 · 56×32 pill · 12px labels · no top line ---------- */
+.bottom-nav {
+  flex: 0 0 auto; min-height: var(--nav-h); display: flex; align-items: stretch; gap: 0;
+  padding: 6px 0 calc(6px + env(safe-area-inset-bottom)); border: 0; background: var(--chrome); box-shadow: none;
+}
+.nav-item {
+  position: relative; flex: 1 1 0; min-width: 0; min-height: calc(var(--nav-h) - 12px); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px;
+  padding: 0 2px; border: 0; border-radius: 0; background: transparent; color: var(--text-soft); box-shadow: none; font: inherit; font-weight: 500; cursor: pointer;
+}
+.nav-ind { position: relative; width: var(--nav-ind-w); height: var(--nav-ind-h); flex: none; display: grid; place-items: center; border-radius: calc(var(--nav-ind-h) / 2); transition: background-color 160ms ease-out; }
+.nav-ind::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: currentColor; opacity: 0; transition: opacity 120ms ease-out; }
+@media (hover: hover) { .nav-item:hover .nav-ind::before { opacity: var(--state-hover); } }
+.nav-item:active .nav-ind::before { opacity: var(--state-press); }
+.nav-ind .home-symbol { position: relative; font-size: var(--icon); font-variation-settings: "FILL" 0, "wght" 450, "GRAD" 0, "opsz" 24; }
+.nav-label { max-width: 100%; overflow: hidden; font-size: var(--nav-label); line-height: 16px; text-overflow: ellipsis; white-space: nowrap; }
+.nav-item.active { color: var(--text); font-weight: 700; }
+.nav-item.active .nav-ind { background: var(--sel); color: var(--brand-strong); }
+.nav-item.active .nav-ind .home-symbol { font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; }
+.nav-item:focus-visible { outline: 0; }
+.nav-item:focus-visible .nav-ind { outline: 3px solid var(--focus); outline-offset: 2px; }
+.nav-badge {
+  position: absolute; top: -2px; left: calc(50% + 4px); min-width: 16px; height: 16px; display: grid; place-items: center; padding: 0 4px;
+  border: 0; border-radius: 8px; background: var(--danger); color: var(--on-danger); box-shadow: 0 0 0 2px var(--chrome);
+  font: 700 10px/16px Inter, sans-serif;
+}
+
+/* ---------- Cart bar pinned to the bottom ---------- */
+.p2-cart-fab { border: 0; border-radius: var(--card-r); background: var(--surface); }
+
+/* ---------- Leading icons in lists: 24 glyph in a 40 circle ---------- */
+.list-icon, .history-icon, .notif-icon, .pay-icon, .role-icon, .home-more-icon, .home-location-mark, .home-order-icon, .coupon-row .pay-icon {
+  flex: 0 0 var(--lead); width: var(--lead); height: var(--lead); display: grid; place-items: center; border-radius: 50%;
+}
+.list-icon { background: var(--surface-2); color: var(--text-soft); }
+:is(.list-icon, .history-icon, .notif-icon, .pay-icon, .role-icon, .home-more-icon, .home-location-mark, .home-order-icon) .home-symbol { font-size: var(--icon); }
+.home-more-icon { background: var(--surface-2); color: var(--text-soft); }
+
+/* inset dividers: start where the text starts (after the 40 circle + 12 gap) */
+.list-row { border-bottom: 0; background: linear-gradient(var(--line), var(--line)) no-repeat left bottom / 100% 1px; }
+.list-row:has(> :is(.list-icon, .notif-icon, .role-icon)) { background-position: left calc(var(--lead) + 12px) bottom; background-size: calc(100% - var(--lead) - 12px) 1px; }
+.list-row:last-child { background: none; }
+/* a row whose segmented control wraps under the label spans the full width, so its divider does too */
+.list-row:has(> .seg) { background-position: left bottom; background-size: 100% 1px; }
+.list-row:has(> .seg):last-child { background: none; }
+.history-row:not(:last-child)::after { left: calc(var(--lead) + 14px); }
+.history-row { min-height: 76px; padding: 12px 0; }
+.pay-row { gap: 12px; border-bottom: 0; background: linear-gradient(var(--line), var(--line)) no-repeat left calc(var(--lead) + 12px) bottom / calc(100% - var(--lead) - 12px) 1px; }
+.pay-row:last-child { background: none; }
+.home-more-row { border-bottom: 0; background: linear-gradient(var(--line), var(--line)) no-repeat left calc(var(--lead) + 12px) bottom / calc(100% - var(--lead) - 12px) 1px; }
+.home-more-row:last-child { background: none; }
+
+/* ---------- Empty state icon: white on the page, grey inside white surfaces ---------- */
+:is(.modal, .card, .list-group, .flat-block) .empty-icon { background: var(--surface-2); }
+
+/* ---------- OS chrome (S-06 shade · heads-up) uses the same control sizes ---------- */
+.shade-clear, .shade-open-app { position: relative; min-height: var(--ctl-h); padding: 0 var(--ctl-px); border-radius: var(--ctl-r); font-size: 14px; }
+.shade-clear::after, .shade-open-app::after { content: ""; position: absolute; inset: calc((var(--ctl-h) - var(--hit)) / 2) 0; }
+.shade-open-app { border-color: color-mix(in srgb, var(--os-on-wall) 50%, transparent); }
+
+/* ---------- Narrow phones ---------- */
+@media (max-width: 360px) {
+  .btn { padding-left: 16px; padding-right: 16px; font-size: 14px; }
+  .btn-row > .btn { padding-left: 10px; padding-right: 10px; }
+  .seg-btn { padding: 0 6px; gap: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn:not(:disabled):active { transform: none; }
+}

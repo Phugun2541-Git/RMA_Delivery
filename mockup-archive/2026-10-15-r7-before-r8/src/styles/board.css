@@ -1,0 +1,23 @@
+/* Static board: fixed-size frames, no animation, no review chrome */
+*, *::before, *::after { animation: none !important; transition: none !important; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body { padding: 40px; font-family: "IBM Plex Sans Thai", Inter, system-ui, sans-serif; }
+.board-head { margin-bottom: 40px; }
+.board-head h1 { margin: 0 0 8px; font-size: 32px; }
+.board-head p, .board-head nav { margin: 4px 0; color: var(--muted); font-size: 14px; }
+.board-head a { color: var(--brand-strong); }
+.board-section { margin-bottom: 80px; }
+.board-section > h2 { margin: 0 0 24px; font-size: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.board-row { display: grid; grid-template-columns: repeat(8, 390px); gap: 56px 48px; align-items: start; }
+.board-cell { margin: 0; width: 390px; }
+.board-cell figcaption { height: 32px; margin-bottom: 8px; color: var(--text); font-size: 14px; font-weight: 600; line-height: 1.3; overflow: hidden; }
+.board-frame { width: 390px; height: 844px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
+.board-frame .phone { width: 390px; height: 844px; min-height: 0; border: 0; border-radius: 0; box-shadow: none; }
+.board-frame .phone::before { display: none; }
+.board-frame .toast-region { display: none; }
+.board-frame .screen-host { --screen-pad: 16px; }
+/* ?only=<key>: one frame, edge to edge, for screenshots */
+body.board-shot { padding: 0; }
+.board-shot .board-cell figcaption { display: none; }
+.board-shot .board-frame { border: 0; }
+.board-frame .phone > #modal-root { position: absolute; inset: 0; z-index: 40; }

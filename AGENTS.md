@@ -15,6 +15,7 @@
 |---|---|---|---|---|
 | `architect` | คนคิด | เริ่ม feature ใหญ่ · เลือกแนวทาง/stack · เพิ่ม dependency | opus · high | ✗ (ADR ได้) |
 | `researcher` | คนคิด | ต้องข้อมูลนอกโปรเจค: package, ราคา Maps/payment/OTP, พฤติกรรมแอปคู่แข่ง | opus · medium | ✗ |
+| `ui-designer` | คนออกแบบ | เจ้าของบอกหน้าจอไม่สวย/ไม่เหมือนแอปมือถือ · หน้าใหม่ · ปรับ token · ทำตัวอย่างเทียบ A/B/C | opus · high | ✓ เฉพาะ `mockup/` |
 | `flutter-dev` | คนเขียน | มีแผน + มีแบบจาก Manus แล้ว ลงมือ implement | opus · high | ✓ |
 | `qa-tester` | คนเขียน | เขียน test · หา edge case | opus · high | ✓ เฉพาะ test |
 | `opus-high-auditor` | คนตรวจ | ตรวจแผน/โค้ดงานกลาง · ตรวจซ้ำงานยาก | opus · high | ✗ |
@@ -23,11 +24,15 @@
 | `security-auditor` | คนตรวจ | ก่อน release · แตะ token/สิทธิ์/ข้อมูลส่วนบุคคล/payment | opus · xhigh | ✗ |
 | `retrospective` | ตรวจกระบวนการ | งานจบรอบ · ต้องสั่งแก้ซ้ำหลายรอบ | opus · high | ✗ โค้ด · ✓ เอกสาร |
 
-ไม่มี `ui-designer` — เป็นงานของ Manus · ไม่มี `backend-dev` — backend เป็นของทีมเดิม (D-008) ต้องการอะไรจาก API ให้เขียนเป็นคำขอใน `docs/STATUS.md`
+งาน UI/mockup → `ui-designer` (opus · high · โหลด design skills + ถ่ายภาพตรวจเองได้ · ใช้ได้ตั้งแต่ session ถัดไป ก่อนหน้านั้นใช้ general-purpose + model opus แทน) · ไม่มี `backend-dev` — backend เป็นของทีมเดิม (D-008) ต้องการอะไรจาก API ให้เขียนเป็นคำขอใน `docs/STATUS.md`
 
 ## กฎ model / effort
-- **ทุกตัว = `opus`** รวมคนเขียน (`sonnet` ใช้ได้แค่งานแก้คำ/ปรับข้อความง่ายๆ) · **ไม่ใช้ `fable`** (ไม่มีโควตา อย่าลอง spawn)
-- ไม่มีโมเดลสูงกว่า Opus → อยากได้ลึกขึ้น = เลือก agent ที่ `effort` สูงขึ้น (effort ผูกกับไฟล์ ตั้งรายครั้งไม่ได้)
+- **เลือก model ตามลักษณะงาน (D-030):**
+  - **`sonnet`** = ทำตามสเปกที่ระบุเป็นข้อชัดเจน + มีสคริปต์/เทสตรวจ + ไม่แตะส่วนวิกฤต (เช่น แก้ mockup ตาม feedback รายข้อ · งานแก้คำ/ข้อความ)
+  - **`opus`** = งานออกแบบที่ต้องใช้วิจารณญาณ · วางโครงสร้าง/architecture · โค้ด Flutter ที่แตะเงิน/สถานะ order/payment/สิทธิ์/ข้อมูลส่วนบุคคล · **งาน audit/ตรวจทุกระดับ** · ไม่แน่ใจ → `opus`
+  - ไฟล์ agent ใน `.claude/agents/` ยังตั้ง `opus` ทุกตัว · จะใช้ `sonnet` ให้ส่ง `model: sonnet` ตอน spawn · บอกเจ้าของทุกครั้งว่าใช้ model ไหนเพราะอะไร
+  - **ไม่ใช้ `fable`** (ไม่มีโควตา อย่าลอง spawn)
+- ไม่มีโมเดลสูงกว่า Opus → อยากได้ลึกขึ้น = เพิ่ม `effort` · ค่า default ผูกกับไฟล์ agent แต่ตั้งรายครั้งได้ด้วย parameter `effort` ตอน spawn · spawn `sonnet` ให้ตั้ง `effort: high` เสมอ (ไม่ปล่อย default)
 - **อย่า spawn ถ้าไม่จำเป็น** — spawn ใหม่เริ่มจาก context ว่าง ต้องป้อนทุกอย่างใหม่ = แพง · งานเล็กทำใน session หลัก
 
 | ขนาดงาน (นิยามใน `SKILL.md` §1) | audit ครั้งแรก | ตรวจซ้ำหลังแก้ |

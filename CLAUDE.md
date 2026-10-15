@@ -16,7 +16,7 @@
 - **ระบบพี่น้อง:** Smart Kitchen (POS ร้าน · พัฒนาแล้ว · ร้านเลือกผูกเพื่อดึงเมนู/ส่ง order เข้าครัว/ตัดสต็อก) ·
   Food Hub (เว็บสั่งอาหารของร้านใน Smart Kitchen — ขอบเขตซ้ำกับแอปนี้ **ยังคุยกับทีมไม่จบ**)
 - **ภายนอก:** Google Maps · e-payment · LINE LIFF · push notification
-- **แบ่งงาน AI:** Claude = architecture + โค้ด + model/API · **Manus = UX/UI เท่านั้น** (คุยผ่าน `ai-collab/`)
+- **แบ่งงาน AI (D-028):** **Claude = ทั้งหมด** — UX/UI + โค้ด + architecture + model/API · Manus = แค่ทำภาพ UI อ้างอิงบางหน้าเมื่อเจ้าของสั่ง
 - ยังไม่เคาะ: state management · รูปแบบ API ของทีม backend → ดู "คำถามค้าง" ใน `docs/STATUS.md`
 
 ## 3. Hard Rules (ห้ามฝ่าฝืน)
@@ -24,7 +24,7 @@
 2. **เงินและสถานะ order = server ตัดสิน** — แอปแสดงค่าที่ server ตอบ ห้ามคำนวณยอดจ่ายจริงเอง
 3. **ปุ่มที่ยิง API ต้องกดย้ำไม่ได้** — disable + loading จนจบ · request สร้าง order/ชำระเงินต้องมี idempotency key
 4. **UI ทุกหน้าต้องผ่าน checklist ใน `SKILL.md` §3** (แป้นพิมพ์ไม่บัง · ไม่ overflow · ปัดย้อนกลับ = ปุ่มย้อนกลับ · skeleton · จำกัดขนาดรูป)
-5. **หน้าตา = ของ Manus** — ทำตาม mockup ใน `manus/RMA-Delivery-source/` · ห้ามคิดสี/สไตล์เอง · Claude แก้โค้ด mockup ได้เฉพาะเรื่องโครงสร้างปุ่ม/flow/state (D-020 · งานค้างดู `ai-collab/CLAUDE-R3-HANDOFF.md`)
+5. **หน้าตา = ยึด mockup ใน `manus/RMA-Delivery-source/` + ข้อเคาะใน `ai-collab/DECISIONS.md`** (D-025 flat UI · D-028 Claude ออกแบบเอง) · สี/ระยะผ่าน token เท่านั้น · เปลี่ยนหน้าตาที่เคาะแล้ว → เสนอเจ้าของก่อน
 6. **ห้าม hardcode ข้อความและสี** — ข้อความผ่าน l10n (th/en) · สีผ่าน theme (light/dark)
 7. **ห้ามแก้หรือสร้างอะไรใน `D:\new_rma_pos`** (อ่านอ้างอิงได้) · `D:\_claude-template` แก้ได้เมื่อเจอสิ่งที่ควรเป็นมาตรฐานข้ามโปรเจค
 8. ห้าม `print()` หลุด production · ห้าม log token / เบอร์โทร / ที่อยู่ / พิกัด
@@ -36,7 +36,7 @@
 เข้าใจโจทย์ → อ่าน doc ที่เกี่ยว → เสนอแผนสั้นๆ → รอ OK → ลงมือ → รันตรวจ → สรุป (ขั้นเต็ม + ขนาดงาน = `SKILL.md`)
 - แตะ > 3 ไฟล์ หรือแตะส่วนวิกฤต (เงิน · สถานะ order · payment · auth/สิทธิ์ตาม role · ข้อมูลส่วนบุคคล · Smart Kitchen) → **เสนอแผนก่อนเสมอ**
 - subagent อยู่ `.claude/agents/` — รายชื่อ + model/effort + ใช้ตัวไหนเมื่อไหร่ = `AGENTS.md`
-- คุยกับ Manus: เขียน brief ลง `ai-collab/to-manus.md` → เจ้าของถือสาร → **จบรอบต้องเคลียร์ไฟล์** (กติกา `ai-collab/README.md`)
+- ภาพอ้างอิงจาก Manus (ถ้ามี) → ใช้เป็น reference เท่านั้น · brief ถึง Manus ใช้ `ai-collab/to-manus.md` เฉพาะเมื่อเจ้าของสั่ง
 - ก่อนบอกว่า "เสร็จ": analyze ไม่มี issue ใหม่ · เทสที่เกี่ยวเขียว · UI checklist ผ่าน · ของค้างจดใน `docs/STATUS.md` (ไม่ทิ้ง TODO ในโค้ด)
 
 ## 5. อ่านไฟล์ไหนเมื่อไหร่

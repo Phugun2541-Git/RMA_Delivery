@@ -1,0 +1,29 @@
+import { VEHICLES } from "../data/content.js";
+import { escapeHTML } from "./components.js";
+import { extraModal } from "./modals-extra.js";
+
+export function modalMarkup(type, state) {
+  const content = extraModal(type, state) ?? baseModal(type, state);
+  return `<div class="modal-backdrop" data-action="close-modal"><div class="modal" role="dialog" aria-modal="true" data-modal-inner>${content}</div></div>`;
+}
+function baseModal(type, state) {
+  const ride=VEHICLES.find(v=>v.id===state.selectedVehicle)||VEHICLES[1];
+  const rideFare=ride.price-(state.rideCouponApplied?10:0);
+  const activePayment=state.paymentTarget==='ride'?state.ridePayment:state.paymentMethod;
+  const option=state.optionOverrides[state.optionEditorId]||{};
+  const optionName=escapeHTML(option.name||'');
+  const optionPrice=Number(option.price||0);
+  const content=type==='ride-receipt'?`<span class="eyebrow">ใบเสร็จการเดินทาง</span><h3>RM-RIDE-261007-63</h3><div class="info-row"><span>เส้นทาง</span><strong>ห้วยขวาง → อโศก</strong></div><div class="info-row"><span>รถ</span><strong>${ride.name} · ${ride.seats} ที่นั่ง</strong></div>${state.rideCouponApplied?`<div class="info-row"><span>ส่วนลด RIDE10</span><strong>−฿10</strong></div>`:""}<div class="info-row"><span>ชำระผ่าน</span><strong>${state.ridePayment}</strong></div><div class="price-line total"><span>ยอดชำระ</span><strong>฿${rideFare}</strong></div><button class="btn" data-action="close-modal">ปิดใบเสร็จ</button>`:
+  type==='sheet'?`<span class="eyebrow">รายละเอียดระหว่างรอ</span><h3>สถานะ order ${state.currentId}</h3><p class="muted small">ร้านกำลังเตรียมอาหาร · ไรเดอร์ธนกรกำลังไปรับ · ETA 12:45 น.</p><div class="step-list"><div class="step done"><span class="step-dot">✓</span><div class="step-copy"><strong>ร้านรับ order แล้ว</strong><small>12:19 น.</small></div></div><div class="step"><span class="step-dot">2</span><div class="step-copy"><strong>กำลังจัดเตรียม</strong><small>ประมาณ 18 นาที</small></div></div></div><button class="btn" data-action="close-modal">เข้าใจแล้ว</button>`:
+  type==='payment-method'?`<span class="eyebrow">วิธีชำระเงิน</span><h3>เลือกวิธีชำระ</h3>${['พร้อมเพย์ QR','บัตรเครดิต / เดบิต','เงินสด'].map(method=>`<button class="toggle-row ${activePayment===method?'selected':''}" data-action="p2-select-payment" data-method="${escapeHTML(method)}" aria-pressed="${activePayment===method}"><span>${escapeHTML(method)}</span><span>${activePayment===method?'✓':''}</span></button>`).join('')}<button class="btn ghost" data-action="close-modal">ยกเลิก</button>`:
+  type==='option-editor'?`<span class="eyebrow">กลุ่มตัวเลือก · ${escapeHTML(state.optionEditorId.split('-')[0]||'')}</span><h3>แก้ไขตัวเลือก</h3><label class="form-field"><span>ชื่อ</span><input class="field" data-option-name value="${optionName}"></label><label class="form-field"><span>ราคาเพิ่ม (บาท)</span><input class="field" type="number" min="0" data-option-price value="${optionPrice}"></label><div class="btn-row"><button class="btn ghost" data-action="p2-option-move">ย้ายขึ้น</button><button class="btn danger" data-action="p2-option-delete">ลบตัวเลือก</button></div><div class="btn-row"><button class="btn ghost" data-action="close-modal">ยกเลิก</button><button class="btn" data-action="p2-option-save">บันทึก</button></div>`:
+  type==='option-group'?`<span class="eyebrow">กลุ่มตัวเลือกใหม่</span><h3>เพิ่มกลุ่มตัวเลือก</h3><label class="form-field"><span>ชื่อกลุ่ม</span><input class="field" data-option-group-name placeholder="เช่น ระดับความหวาน"></label><div class="btn-row"><button class="btn ghost" data-action="close-modal">ยกเลิก</button><button class="btn" data-action="p2-option-group-save">เพิ่มกลุ่ม</button></div>`:
+  type==='delete-menu'?`<h3>ลบเมนูนี้?</h3><p class="muted small">เมนูจะถูกนำออกจากรายการใน prototype หลังยืนยัน</p><div class="btn-row"><button class="btn ghost" data-action="close-modal">ยกเลิก</button><button class="btn danger" data-action="p2-confirm-delete-menu">ลบเมนู</button></div>`:
+  type==='history-detail'?`<span class="eyebrow">รายละเอียดงานที่ผ่านมา</span><h3>${state.historyDetailText||'งานจัดส่งอาหาร'}</h3><div class="info-row"><span>เส้นทาง</span><strong>ครัวบ้านสวน → ห้วยขวาง</strong></div><div class="info-row"><span>เวลาทำงาน</span><strong>12:18–12:47 น.</strong></div><div class="info-row"><span>รายได้</span><strong>฿72 · ทิป ฿20</strong></div><button class="btn" data-action="close-modal">ปิดรายละเอียด</button>`:
+  type==='cash-remittance'?`<span class="eyebrow">นำส่งเงินสด</span><h3>ยอดที่ต้องนำส่ง ฿320</h3><p class="muted small">สแกน QR หรือนำส่งผ่านบัญชีที่ผูกไว้ ระบบจะปรับยอดหลังตรวจสอบ</p><div class="state-illustration">QR</div><div class="info-row"><span>กำหนดนำส่ง</span><strong>ภายในวันนี้</strong></div><button class="btn" data-action="p2-cash-confirm">ยืนยันนำส่งแล้ว</button>`:
+  type==='cancel-order'?`<h3>ยืนยันยกเลิกคำสั่งซื้อ?</h3><p class="muted small">ร้านเริ่มเตรียมอาหารแล้ว หากชำระเงินสำเร็จ ระบบจะแสดงการคืนเงินเข้าช่องทางเดิมภายใน 3–5 วันทำการ</p><div class="btn-row"><button class="btn ghost" data-action="close-modal">กลับ</button><button class="btn danger" data-action="confirm-cancel">ยืนยันยกเลิก</button></div>`:
+  type==='remove-cart-item'?`<h3>นำรายการนี้ออกจากตะกร้า?</h3><p class="muted small">ต้องการลบเมนูออกจากรายการสั่งซื้อหรือไม่</p><div class="btn-row"><button class="btn ghost" data-action="close-modal">กลับ</button><button class="btn danger" data-action="p2-confirm-remove">นำออก</button></div>`:
+  type==='dialog'?`<h3>ยืนยันการทำรายการ?</h3><p class="muted small">ตัวอย่าง dialog ยืนยันก่อนการกระทำสำคัญ เช่น ยกเลิก order</p><div class="btn-row"><button class="btn ghost" data-action="close-modal">กลับ</button><button class="btn danger" data-action="confirm-dialog">ยืนยัน</button></div>`:
+  `<h3>รายละเอียด</h3><p class="muted small">ตัวอย่าง bottom sheet สำหรับข้อมูลที่เกี่ยวกับงานปัจจุบัน</p><button class="btn" data-action="close-modal">ปิด</button>`;
+  return content;
+}
